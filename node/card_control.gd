@@ -17,7 +17,7 @@ func _ready():
 
 
 func update_deck_height():
-	$Container.get_theme_stylebox("panel").border_width_bottom = represents.size() - 1
+	$Container.get_theme_stylebox("panel").border_width_bottom = represents.size()
 
 func set_outline(value: bool):
 	$Container/Outline.visible = value

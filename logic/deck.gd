@@ -34,8 +34,8 @@ func split() -> Cardlist:
 	
 	Game.table.add_child(deck)
 	deck.position = position
-	deck.move_to(position + Vector2(110, 0))
 	deck.add(list)
+	await deck.move_to(position + Vector2(110, 0))
 	deck.cardify_if_size_1()
 	
 	return deck
