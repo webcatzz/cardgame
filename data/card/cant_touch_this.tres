@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="CardData" load_steps=2 format=3 uid="uid://vhfggtb0djb7"]
+
+[ext_resource type="Script" path="res://data/card/card_data.gd" id="1_qxrlx"]
+
+[resource]
+script = ExtResource("1_qxrlx")
+name = "can't touch this"
+text = "You can't touch this card."
+type = 0

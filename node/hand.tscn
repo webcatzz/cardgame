@@ -1,0 +1,33 @@
+[gd_scene load_steps=3 format=3 uid="uid://bmrwnemjnnnh4"]
+
+[ext_resource type="Script" path="res://node/hand.gd" id="1_pmwcd"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kfq8x"]
+size = Vector2(0, 100)
+
+[node name="Hand" type="Control"]
+layout_mode = 3
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("1_pmwcd")
+
+[node name="HBox" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 60
+alignment = 1
+
+[node name="Snap" type="Area2D" parent="."]
+
+[node name="Shape" type="CollisionShape2D" parent="Snap"]
+shape = SubResource("RectangleShape2D_kfq8x")
