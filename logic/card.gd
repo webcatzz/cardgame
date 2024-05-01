@@ -21,6 +21,9 @@ func data_path():
 
 func _init(card_name: String = ""):
 	if card_name: load_data(card_name)
+	else:
+		TEMP += 1
+		self.card_name = var_to_str(TEMP)
 
 func load_data(card_name: String):
 	var data: CardData = load(data_path() + card_name + ".tres")
@@ -30,29 +33,27 @@ func load_data(card_name: String):
 
 # control
 
-const control_scene: PackedScene = preload("res://node/card_control.tscn")
-
-var pickable: bool:
-	set(value): click_area.mouse_filter = Control.MOUSE_FILTER_STOP if value else Control.MOUSE_FILTER_IGNORE
-	get: return click_area.mouse_filter == Control.MOUSE_FILTER_STOP
+static var TEMP: int = 0
 
 func _ready():
-	var control: Control = control_scene.instantiate()
-	setup_click_area(control.get_child(0))
-	add_child(control)
 	super()
 	
-	tree_exited.connect(control.set_outline.bind(false))
+	var control: Control = card_control.instantiate()
+	add_child(control)
+	click_area = control.get_child(0)
 
 
 
 # deck conversion
 
-func deckify():
+func deckify() -> Deck:
 	var deck: Deck = Deck.new()
-	get_parent().add_child(deck)
-	deck.position = position
-	deck.add(self)
+	
+	var pos: Vector2 = position
+	deck.add(self, false)
+	replace_with(deck, false)
+	deck.position = pos
+	
 	return deck
 
 func stack(node: Cardlike):

@@ -8,8 +8,9 @@ signal flipped_changed
 
 var flipped: bool = false:
 	set(value):
+		var oldValue: bool = flipped
 		flipped = value
-		flipped_changed.emit()
+		if not flipped == oldValue: flipped_changed.emit()
 
 func flip():
 	flipped = !flipped
@@ -26,19 +27,9 @@ func get_art():
 
 
 
-# inheriting style
-
-func orient_to(cardlike: Cardlike):
-	flipped = cardlike.flipped
-	rotation = cardlike.rotation
-	position = Vector2.ZERO
-	z_index = 0
-
-
-
 # snapping to cardlists
 
-static var snap_point_scene: PackedScene = preload("res://node/snap_point.tscn")
+static var snap_point_scene: PackedScene = load("res://node/snap_point.tscn")
 
 var snap_point: Area2D = snap_point_scene.instantiate()
 
@@ -62,17 +53,30 @@ func stack_with_nearby():
 func stack(node: Cardlike):
 	pass # overwritten by child classes
 
-func move_to(pos: Vector2):
-	var tween: Tween = get_tree().create_tween()
-	tween.tween_property(self, "position", pos, 0.1)
-	await tween.finished
+
+
+# tree
+
+func orient(game_object: GameObject):
+	if game_object is Cardlike:
+		game_object.flipped = flipped
+	super(game_object)
+
+
+# card control
+
+static var card_control: PackedScene = load("res://node/card_control.tscn")
 
 
 
-# removing from tree
+# key events
 
-func remove_from_tree():
-	if get_parent(): get_parent().remove_child(self)
+func key_event(event: InputEvent):
+	super(event)
+	if not get_viewport().is_input_handled():
+		if event.is_action_pressed("flip"):
+			click_area.accept_event()
+			flip()
 
 
 

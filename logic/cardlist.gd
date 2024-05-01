@@ -12,7 +12,8 @@ var cards: Array[Card] = []
 
 @export var names: PackedStringArray:
 	set(value):
-		for cardName in value: add(Card.new(cardName))
+		for card_name in value:
+			add(Card.new(card_name), false)
 
 func _ready():
 	super()
@@ -22,9 +23,10 @@ func _ready():
 
 # adding
 
-func add(card: Cardlike) -> Card:
-	card.remove_from_tree()
-	card.orient_to(self)
+func add(card: Cardlike, remove: bool = true) -> Card:
+	if remove: card.remove_from_tree()
+	card.orient(self)
+	card.position = Vector2.ZERO
 	
 	if card is Card:
 		cards.append(card)
@@ -38,7 +40,8 @@ func add(card: Cardlike) -> Card:
 
 func add_bottom(card: Cardlike) -> Card:
 	card.remove_from_tree()
-	card.orient_to(self)
+	card.orient(self)
+	card.position = Vector2.ZERO
 	
 	if card is Card:
 		cards.push_front(card)
@@ -136,6 +139,17 @@ func on_flipped_changed():
 func stack(node: Cardlike):
 	await node.move_to(position)
 	add(node)
+
+
+
+# key events
+
+func key_event(event: InputEvent):
+	super(event)
+	if not get_viewport().is_input_handled():
+		if event.is_action_pressed("roll"):
+			click_area.accept_event()
+			shuffle()
 
 
 
