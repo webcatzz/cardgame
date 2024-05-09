@@ -57,7 +57,7 @@ func deckify() -> Deck:
 	return deck
 
 func stack(node: Cardlike):
-	await node.move_to(position)
+	await super(node)
 	var deck: Deck = deckify()
 	deck.add(node)
 

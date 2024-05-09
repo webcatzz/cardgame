@@ -137,12 +137,23 @@ func on_flipped_changed():
 # stacking
 
 func stack(node: Cardlike):
-	await node.move_to(position)
+	await super(node)
 	add(node)
 
 
 
-# key events
+# events
+
+func start_drag(event: InputEventMouseButton):
+	if event.shift_pressed:
+		var card: Card = remove_top()
+		card.position = position
+		add_sibling(card)
+		card.click_area.grab_click_focus()
+		card.mouse_entered.emit()
+		card.start_drag(event)
+	else:
+		super(event)
 
 func key_event(event: InputEvent):
 	super(event)

@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://d4nametd82vjy"]
 
 [ext_resource type="Script" path="res://logic/card.gd" id="1_jvvdm"]
-[ext_resource type="Script" path="res://logic/deck.gd" id="3_mct61"]
+[ext_resource type="Script" path="res://logic/deck.gd" id="2_oma6s"]
 
 [node name="Table" type="Node2D"]
 
@@ -16,6 +16,6 @@ position = Vector2(169, 237)
 script = ExtResource("1_jvvdm")
 
 [node name="Deck" type="Node2D" parent="."]
-position = Vector2(846, 165)
-script = ExtResource("3_mct61")
+position = Vector2(893, 178)
+script = ExtResource("2_oma6s")
 names = PackedStringArray("", "", "", "", "", "", "", "", "")

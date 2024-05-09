@@ -51,7 +51,9 @@ func stack_with_nearby():
 		elif node.name == "Hand": node.hand.add(self)
 
 func stack(node: Cardlike):
-	pass # overwritten by child classes
+	if node.rotation != rotation: node.rotate_to(rotation_degrees)
+	await node.move_to(position)
+	# extended in child classes
 
 
 
@@ -74,9 +76,15 @@ static var card_control: PackedScene = load("res://node/card_control.tscn")
 func key_event(event: InputEvent):
 	super(event)
 	if not get_viewport().is_input_handled():
+		
 		if event.is_action_pressed("flip"):
 			click_area.accept_event()
 			flip()
+		
+		elif event.is_action_pressed("zoom_card"):
+			click_area.accept_event()
+		elif event.is_action_released("zoom_card"):
+			click_area.accept_event()
 
 
 

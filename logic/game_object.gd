@@ -51,14 +51,8 @@ func click_area_event(event: InputEvent):
 		# starting/ending drag
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			click_area.accept_event()
-			if event.pressed and not grab:
-				grab = event.global_position - global_position
-				GameObject.z += 1
-				z_index = GameObject.z
-				drag_started.emit()
-			elif not event.pressed and grab:
-				grab = Vector2.ZERO
-				drag_ended.emit()
+			if event.pressed and not grab: start_drag(event)
+			elif grab and not event.pressed: end_drag()
 		
 		# context menu
 		elif event.button_index == MOUSE_BUTTON_RIGHT and !event.pressed:
@@ -68,7 +62,21 @@ func click_area_event(event: InputEvent):
 	# dragging
 	elif event is InputEventMouseMotion and grab:
 		click_area.accept_event()
-		global_position = event.global_position - grab
+		drag(event)
+
+func start_drag(event: InputEventMouseButton):
+	grab = event.global_position - global_position
+	GameObject.z += 1
+	z_index = GameObject.z
+	drag_started.emit()
+
+func drag(event: InputEventMouseMotion):
+	global_position = event.global_position - grab
+
+func end_drag():
+	grab = Vector2.ZERO
+	drag_ended.emit()
+
 
 
 
